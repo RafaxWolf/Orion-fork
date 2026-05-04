@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-interaccion
+      author: mateon
+      changes:
+        - createTable:
+            tableName: interaccion
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: userid
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: postid
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: tipo
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: creado_el
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            indexName: idx_interaccion_userid
+            tableName: interaccion
+            columns:
+              - column:
+                  name: userid
+
+        - createIndex:
+            indexName: idx_interaccion_postid
+            tableName: interaccion
+            columns:
+              - column:
+                  name: postid
