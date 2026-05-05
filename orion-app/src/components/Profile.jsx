@@ -8,13 +8,17 @@ const Profile = () => {
     // se consigue la id del url
     const { id } = useParams(); // Obtiene el ID del usuario desde la URL
 
+    const [imagenLocal, setImagenLocal] = useState(null); // Estado para almacenar la imagen localmente 
     const [perfil, setPerfil] = useState(null); // Estado para almacenar los datos del perfil
     const [cargando, setCargando] = useState(true); // Estado para indicar si los datos están cargando
     const [error, setError] = useState(false); // Estado para almacenar errores
 
 
     useEffect(() => { // useEffect para cargar los datos del perfil cuando el componente se monta
-        
+
+
+
+
         const fetchPerfil = async () => {
             const token = localStorage.getItem('token');
             if (!token) return;
@@ -89,7 +93,13 @@ const Profile = () => {
                     <div className="card shadow-sm">
 
                         <div className="card-body text-center py-5">
+                            <img src={`http://localhost:8000${perfil.avatarUrl}`}
+                            className="rounded-circle mb-3 border border-3 border-primary shadow-sm"
+                            style={{width: '100px', height: '100px', objectFit:'cover'}}
+                            />
                             <h3 className="card-title fw-bold">@{perfil.username}</h3>
+                            <p className="card-text text-muted">{perfil.bio || 'Sin biografía'}</p>
+                            <p className="card-text text-muted">Ubicacion: {perfil.ubicacion || 'No especificada'}</p>
                         </div>
                             
 

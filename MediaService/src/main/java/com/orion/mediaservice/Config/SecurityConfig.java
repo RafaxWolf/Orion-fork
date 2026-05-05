@@ -32,9 +32,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/api/media/avatar/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/api/media/post/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/media/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/api/media/**").authenticated();
                     auth.anyRequest().permitAll();
                 })
 
