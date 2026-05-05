@@ -1,15 +1,15 @@
 
-const Post = ({ post }) => {
+const Post = ({ autorId, contenido }) => {
     return(
 
         <div>
             <div className="card">
                 <div className="card-header font-weight-bold">
-                    {post.userId ? post.autorUsername : `Usuario ${post.autorID}`} {/* Muestra el nombre de usuario si está disponible, de lo contrario muestra el ID del autor */}
+                    @{autorId || 'Usuario Desconocido'} {/* Muestra el ID del autor o un mensaje si no está disponible */}
                     </div>
                 <div className="card-body">
                     <p className="card-text">
-                        {post.content}
+                        {contenido || 'Contenido no disponible.'} {/* Muestra el contenido del post o un mensaje si no está disponible */}
                     </p>
                     </div>
                 <div className="card-footer">
