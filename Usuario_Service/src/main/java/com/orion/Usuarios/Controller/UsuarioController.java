@@ -41,20 +41,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioResponseDTO);
     }
 
-    @GetMapping("/username/{username}")
-    public ResponseEntity<UsuarioResponseDTO> obtenerPorNombre(@PathVariable String username){
-        Usuario usuario = usuarioService.obtenerUsuarioPorUsername(username);
-        UsuarioPerfil usuarioPerfil = usuarioService.obtenerUsuarioPerfilPorUsername(username);
-        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO(
-                usuario.getId(),
-                usuario.getUsername(),
-                usuarioPerfil.getAvatarUrl(),
-                usuarioPerfil.getBiografia(),
-                usuarioPerfil.getUbicacion()
-        );
 
-        return ResponseEntity.ok(usuarioResponseDTO);
-    }
 
 
     /// ADMIN ONLY

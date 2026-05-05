@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="bcbfa88e-6d3a-43e8-852f-2816d117b34d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediaService/src/main/java/com/orion/mediaservice/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/MediaService/src/main/java/com/orion/mediaservice/Config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediaService/src/main/java/com/orion/mediaservice/Security/JwtValidationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MediaService/src/main/java/com/orion/mediaservice/Security/JwtValidationFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Usuario_Service/src/main/java/com/orion/Usuarios/Controller/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Usuario_Service/src/main/java/com/orion/Usuarios/Controller/UsuarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Usuario_Service/src/main/java/com/orion/Usuarios/Repository/UserProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Usuario_Service/src/main/java/com/orion/Usuarios/Repository/UserProfileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Usuario_Service/src/main/java/com/orion/Usuarios/Service/UsuarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Usuario_Service/src/main/java/com/orion/Usuarios/Service/UsuarioService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,7 +169,7 @@
       <workItem from="1777568919319" duration="8201000" />
       <workItem from="1777603867671" duration="8944000" />
       <workItem from="1777900384560" duration="1586000" />
-      <workItem from="1777947260470" duration="9294000" />
+      <workItem from="1777947260470" duration="8979000" />
     </task>
     <servers />
   </component>

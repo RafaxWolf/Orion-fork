@@ -5,9 +5,8 @@ import NavBar from "./Navbar";
 
 const Profile = () => {
 
-    // se obtiene el username del usuario
-
-    const { username } = useParams(); // Obtiene el ID del usuario desde la URL
+    // se consigue la id del url
+    const { id } = useParams(); // Obtiene el ID del usuario desde la URL
 
     const [imagenLocal, setImagenLocal] = useState(null); // Estado para almacenar la imagen localmente 
     const [perfil, setPerfil] = useState(null); // Estado para almacenar los datos del perfil
@@ -27,7 +26,7 @@ const Profile = () => {
 
             try{
 
-                const response = await fetch(`http://localhost:8000/api/usuarios/username/${username}`,{
+                const response = await fetch(`http://localhost:8000/api/usuarios/${id}`,{
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -53,7 +52,7 @@ const Profile = () => {
         fetchPerfil(); // Llama a la función para cargar los datos del perfil
 
 
-        },    [username]); // El efecto se ejecuta cada vez que el username cambia
+        },    [id]); // El efecto se ejecuta cada vez que el ID cambia
 
         if (cargando) {
             return (

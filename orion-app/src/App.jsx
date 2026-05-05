@@ -30,7 +30,7 @@ function App() {
           />
 
             <Route
-            path="/profiles/:username"
+            path="/profiles/:id"
             element={
               <PrivateRoute>
                 <Profile />
