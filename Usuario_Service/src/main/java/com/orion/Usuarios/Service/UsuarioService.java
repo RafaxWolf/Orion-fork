@@ -28,8 +28,10 @@ public class UsuarioService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private UserProfileRepository userProfileRepository;
+
 
 
     // CRUD COMPLETO
@@ -76,6 +78,11 @@ public class UsuarioService {
     public Usuario obtenerUsuarioPorUsername(String username){
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el username"));
+    }
+
+    public UsuarioPerfil obtenerUsuarioPerfilPorId(Long id){
+        return userProfileRepository.findByUsuarioId(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el id"));
     }
 
 

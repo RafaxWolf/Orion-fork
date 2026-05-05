@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import Profile from "./components/Profile";
 
 const PrivateRoute = ({ children }) => {
 
@@ -28,7 +29,14 @@ function App() {
             }
           />
 
-
+            <Route
+            path="/profiles/:id"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }>
+            </Route>
 
           <Route path="*" element={<Navigate to="/login" />} /> {/*Redirige cualquier ruta no definida a /login*/}  
   
