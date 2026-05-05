@@ -25,7 +25,7 @@ public class ControllerPost {
 
     @PostMapping
     public ResponseEntity<PostResponseDTO> guardar(@Valid @RequestBody PostRequestDTO dto) {
-        log.info("POST /api/posts - Creando post para usuario id={}", dto.getUserid());
+        log.info("POST /api/posts - Creando post para usuario id={}", dto.getUserId());
         PostResponseDTO response = service.guardar(dto);
         log.info("Post creado con id={}", response.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

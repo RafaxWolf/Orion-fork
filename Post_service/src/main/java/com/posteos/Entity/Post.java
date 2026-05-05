@@ -21,7 +21,7 @@ public class Post {
     private Long id;
 
     @Column(nullable = true)
-    private Long userid;
+    private Long userId;
 
     @Column(nullable = false, length = 500)
     private String content;

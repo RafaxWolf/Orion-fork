@@ -26,7 +26,7 @@ public class ServicePost {
 
     @Transactional
     public PostResponseDTO guardar(PostRequestDTO dto) {
-        log.info("Guardando nuevo post para usuario id={}", dto.getUserid());
+        log.info("Guardando nuevo post para usuario id={}", dto.getUserId());
         Post post = mapper.aEntidad(dto);
         Post guardado = repo.save(post);
         log.info("Post guardado con id={}", guardado.getId());

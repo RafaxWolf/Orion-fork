@@ -113,6 +113,8 @@ services:
       - /app/node_modules
     depends_on:
       - api-gateway
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 #  app:
 #    build: .
 #    container_name: orion_app

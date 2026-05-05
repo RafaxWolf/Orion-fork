@@ -71,6 +71,8 @@ const Home = () => {
                 },
                 body: JSON.stringify({ content: contentPost, mediaUrl: null}) // Envía el contenido del post en el cuerpo de la solicitud
             });
+
+            console.log(response.json());
         
             if (!response.ok) {
                 throw new Error('Error al crear el post'); // Si la respuesta no es OK, se lanza un error

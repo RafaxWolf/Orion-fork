@@ -1,11 +1,11 @@
 
-const Post = ({ autorID, contenido}) => {
+const Post = ({ autorId, contenido}) => {
     return(
 
         <div>
             <div className="card">
                 <div className="card-header font-weight-bold">
-                    @{autorID || 'usuario'}
+                    @{autorId || 'usuario'}
                 </div>
                 <div className="card-body">
                     <p className="card-text">
