@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcbfa88e-6d3a-43e8-852f-2816d117b34d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Post_service/src/main/java/com/posteos/DTO/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Post_service/src/main/java/com/posteos/DTO/PostMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Post_service/src/main/java/com/posteos/DTO/PostRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Post_service/src/main/java/com/posteos/DTO/PostRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Post_service/src/main/java/com/posteos/Entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/Post_service/src/main/java/com/posteos/Entity/Post.java" afterDir="false" />
-    </list>
+    <list default="true" id="bcbfa88e-6d3a-43e8-852f-2816d117b34d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,11 +66,11 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "react-app",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/akomi/Proyectos/Orion",
+    "last_opened_file_path": "C:/Users/ssaav/Proyectos/Orion",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -170,6 +164,7 @@
       <workItem from="1777568919319" duration="8201000" />
       <workItem from="1777603867671" duration="8944000" />
       <workItem from="1777900384560" duration="1586000" />
+      <workItem from="1777961538911" duration="495000" />
     </task>
     <servers />
   </component>

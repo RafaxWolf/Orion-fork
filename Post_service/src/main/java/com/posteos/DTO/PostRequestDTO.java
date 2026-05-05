@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PostRequestDTO {
-    private Long userid;
+    private Long userId;
 
     @NotBlank(message = "El contenido es requerido")
     @Size(max = 500, message = "Máximo 500 caracteres")

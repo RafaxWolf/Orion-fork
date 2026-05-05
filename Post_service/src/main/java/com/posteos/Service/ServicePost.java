@@ -26,7 +26,7 @@ public class ServicePost {
 
     @Transactional
     public PostResponseDTO guardar(PostRequestDTO dto) {
-        log.info("Guardando nuevo post para usuario id={}", dto.getUserid());
+        log.info("Guardando nuevo post para usuario id={}", dto.getUserId());
         Post post = mapper.aEntidad(dto);
         Post guardado = repo.save(post);
         log.info("Post guardado con id={}", guardado.getId());
@@ -53,7 +53,7 @@ public class ServicePost {
     @Transactional(readOnly = true)
     public List<PostResponseDTO> buscarUser(Long id) {
         log.info("Buscando posts del usuario id={}", id);
-        return repo.findByUserid(id)
+        return repo.findByUserId(id)
                 .stream()
                 .map(mapper::response)
                 .collect(Collectors.toList());

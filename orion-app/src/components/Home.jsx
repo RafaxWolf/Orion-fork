@@ -33,7 +33,10 @@ const Home = () => {
                 // recuperadas
                 const data = await response.json();
 
+                console.log("Publicaciones recuperadas: ", data);
+
                 SetPublicaciones(data.reverse());
+                
             }
         } catch (error){
             console.error("Error al cargar el feed: ", error)
@@ -71,6 +74,8 @@ const Home = () => {
                 },
                 body: JSON.stringify({ content: contentPost, mediaUrl: null}) // Envía el contenido del post en el cuerpo de la solicitud
             });
+
+            console.log(response.json());
         
             if (!response.ok) {
                 throw new Error('Error al crear el post'); // Si la respuesta no es OK, se lanza un error
@@ -83,6 +88,7 @@ const Home = () => {
             setSuccess(true); // Muestra un mensaje de éxito
 
             // en el futuro se recargara el listado de posts para mostrar el nuevo post creado
+            fetchPosts();
         } catch (err) {
             setError(err.message); // Si hay un error, se muestra el mensaje de error en la interfaz
         }
@@ -139,8 +145,9 @@ const Home = () => {
                                 <Post
                                 key={post.id}
 
-                                autorID={post.userid}
+                                autorId={post.userId}
                                 contenido={post.content}
+                                
                                 />
                             ))
                         )}

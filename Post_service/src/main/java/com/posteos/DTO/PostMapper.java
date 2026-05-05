@@ -11,7 +11,7 @@ public class PostMapper {
     public Post aEntidad(PostRequestDTO pdto)
     {
         Post post = new Post(); //Se crea una entidad
-        post.setUserid(pdto.getUserid());
+        post.setUserId(pdto.getUserId());
         post.setContent(pdto.getContent());
         post.setMediaUrl(pdto.getMediaUrl());
 
@@ -24,7 +24,7 @@ public class PostMapper {
         PostResponseDTO dto = new PostResponseDTO();
         dto.setId(posteo.getId());
         dto.setContent(posteo.getContent());
-        dto.setUserid(posteo.getUserid());
+        dto.setUserId(posteo.getUserId());
         dto.setMediaUrl(posteo.getMediaUrl());
         dto.setCreado_el(posteo.getCreadoEl());
         return dto;

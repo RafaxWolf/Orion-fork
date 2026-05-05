@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 public class PostResponseDTO {
     private Long id;
-    private Long userid;
+    private Long userId;
     private String content;
     private String mediaUrl;
     private LocalDateTime creado_el;
