@@ -41,3 +41,8 @@ spring:
               uri: http://media-service:9093
               predicates:
                 - Path=/api/media/**
+
+            - id: interacciones_service
+              uri: http://interaccion-service:9095
+              predicates:
+                - Path=/api/interacciones/**

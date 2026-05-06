@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bcbfa88e-6d3a-43e8-852f-2816d117b34d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interaccion_Service/src/main/java/com/orion/interaccion/Entity/Like.java" beforeDir="false" afterPath="$PROJECT_DIR$/Interaccion_Service/src/main/java/com/orion/interaccion/Entity/Like.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interaccion_Service/src/main/java/com/orion/interaccion/Repository/FollowRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Interaccion_Service/src/main/java/com/orion/interaccion/Repository/FollowRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Post_service/src/main/java/com/posteos/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Post_service/src/main/java/com/posteos/Config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ApiGateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ApiGateway/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
