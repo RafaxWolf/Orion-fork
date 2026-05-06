@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface Repository_Post extends JpaRepository<Post, Long> {
     List<Post> findByUserId(Long userId);
+
+    List<Post> findByUserIdOrderByCreadoElDesc(Long userId);
 }

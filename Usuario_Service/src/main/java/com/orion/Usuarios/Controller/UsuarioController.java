@@ -1,6 +1,8 @@
 package com.orion.Usuarios.Controller;
 
 
+import com.orion.Usuarios.DTO.RegisterRequest;
+import com.orion.Usuarios.DTO.RegisterResponse;
 import com.orion.Usuarios.DTO.UsuarioResponseDTO;
 import com.orion.Usuarios.Entity.Usuario;
 import com.orion.Usuarios.Entity.UsuarioPerfil;
@@ -20,10 +22,29 @@ public class UsuarioController {
 
 
     @PostMapping("/registro")
-    public ResponseEntity<Usuario> registrar(@RequestBody Usuario usuario){
-        Usuario nuevoUser = usuarioService.registrarUsuario(usuario);
-        return ResponseEntity.ok(nuevoUser);
+    public ResponseEntity<RegisterResponse> registrar(@RequestBody RegisterRequest registerRequest) {
+        Usuario user = new Usuario();
+        UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
+        usuarioPerfil.setBiografia(registerRequest.getBiografia());
+        usuarioPerfil.setAvatarUrl(registerRequest.getAvatarUrl());
+        usuarioPerfil.setUbicacion(registerRequest.getUbicacion());
+        user.setUsername(registerRequest.getUsername());
+        user.setEmail(registerRequest.getEmail());
+        user.setPassword(registerRequest.getPassword());
+        user.setPerfil(usuarioPerfil);
+        Usuario userRegistrado = usuarioService.registrarUsuario(user);
+        return ResponseEntity.ok(new RegisterResponse(
+                userRegistrado.getId(),
+                userRegistrado.getUsername(),
+                userRegistrado.getEmail()
+        ));
     }
+
+//    @PostMapping("/registro")
+//    public ResponseEntity<Usuario> registrar(@RequestBody Usuario usuario){
+//        Usuario nuevoUser = usuarioService.registrarUsuario(usuario);
+//        return ResponseEntity.ok(nuevoUser);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> buscar(@PathVariable Long id){

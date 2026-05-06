@@ -142,6 +142,7 @@ const Home = () => {
                             </p>
                         ) : (
                             publicaciones.map((post) => (
+                                <div className="mt-3">
                                 <Post
                                 key={post.id}
 
@@ -149,6 +150,7 @@ const Home = () => {
                                 contenido={post.content}
                                 
                                 />
+                                </div>
                             ))
                         )}
 

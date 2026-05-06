@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/MediaService/pom.xml" />
         <option value="$PROJECT_DIR$/ApiGateway/pom.xml" />
         <option value="$PROJECT_DIR$/Comentario_Service/pom.xml" />
+        <option value="$PROJECT_DIR$/Interacciones_Service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

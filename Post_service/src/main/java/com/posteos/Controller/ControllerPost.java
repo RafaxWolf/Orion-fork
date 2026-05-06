@@ -46,6 +46,17 @@ public class ControllerPost {
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PostResponseDTO>> obtenerTodosPorUsuario(@PathVariable Long userId) {
+        List<PostResponseDTO> posts = service.buscarPostDeUsuario(userId);
+
+        if(posts.isEmpty()) {
+            return ResponseEntity.notFound().build(); // devuelve code 204 no hay posts
+        }
+
+        return ResponseEntity.ok(posts);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PostResponseDTO> obtenerPorId(@PathVariable Long id) {
         log.info("GET /api/posts/{} - Buscando post por id", id);

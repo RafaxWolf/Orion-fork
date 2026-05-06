@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import NavBar from "./Navbar";
-
+import Post from "./Post";
 
 const Profile = () => {
 
@@ -12,12 +12,41 @@ const Profile = () => {
     const [perfil, setPerfil] = useState(null); // Estado para almacenar los datos del perfil
     const [cargando, setCargando] = useState(true); // Estado para indicar si los datos están cargando
     const [error, setError] = useState(false); // Estado para almacenar errores
-
+    const [posts, setPosts] = useState([]); // Estado para almacenar los posts del usuario
 
     useEffect(() => { // useEffect para cargar los datos del perfil cuando el componente se monta
 
 
+        const fetchPosts = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) return;
 
+
+            try{
+
+                const response = await fetch(`http://localhost:8000/api/posts/usuario/${id}`,{
+                    method: 'GET',
+                    headers: {
+                        'Authorization' : `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+
+                if (response.ok){
+                    const data = await response.json();
+                    console.log("Posts del usuario: ", data);
+                    setPosts(data); // Actualiza el estado con los posts del usuario
+
+                }
+
+            } catch (err) {
+                console.error("Error al cargar los posts del usuario: ", err);
+            }
+
+        };
+
+        fetchPosts(); // Llama a la función para cargar los posts del usuario
 
         const fetchPerfil = async () => {
             const token = localStorage.getItem('token');
@@ -106,6 +135,27 @@ const Profile = () => {
 
                     </div>
 
+
+                    <div className="container mt-5">
+                        <h5 className="text-muted mb-3">Publicaciones de {perfil.username}</h5>   
+
+                        {posts.length === 0 ? (
+                            <p className="text-center text-muted mt-5">
+                                No hay publicaciones de este usuario.
+                            </p>
+                        ) : (
+                            posts.map((post) => (
+                                <div className="mt-3">
+                                <Post
+                                key={post.id}
+                                autorId={post.userId}
+                                contenido={post.content}
+                                />
+                                </div>
+                            ))
+                        )} 
+
+                    </div>
                 </div>
 
             </div>
