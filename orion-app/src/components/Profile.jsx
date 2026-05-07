@@ -227,6 +227,8 @@ const Profile = () => {
                             <p className="card-text text-muted">{perfil.biografia || 'Sin biografía'}</p>
                             <p className="card-text text-muted">Ubicacion: {perfil.ubicacion || 'No especificada'}</p>
 
+                            
+
                             <div className="row">
                                 <div className="col">
                                     <h6 className="text-muted mb-0">Posts</h6>

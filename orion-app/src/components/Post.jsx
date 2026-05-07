@@ -7,6 +7,7 @@ const Post = ({ postId, autorId, contenido }) => {
     
 
     const [likesCount, setLikesCount] = useState(0); // Estado para almacenar el número de likes
+    const [isLiked, setIsLiked] = useState(false);
 
     useEffect(() => {
 
@@ -37,8 +38,44 @@ const Post = ({ postId, autorId, contenido }) => {
     };
 
     fetchLikesCount();
+
+
+
 }, [postId]); // El efecto se ejecuta cada vez que el postId cambia
 
+
+const handleLikePost = async () => {
+
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
+    try{
+
+        const response = await fetch(`http://localhost:8000/api/interacciones/post/${postId}/like`,{
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+
+        if (response.ok){
+
+            const data = await response.json();
+            setIsLiked(data);
+            console.log(data);
+
+            // para actualizar en vivo como sube o baja el contador de seguidores al dejar de seguir
+                    setLikesCount((prev) => isLiked ? prev - 1 : prev + 1);
+        }
+
+    } catch (error){
+        console.error('error encontrado: ',error)
+    }
+
+};
 
 
 
@@ -78,6 +115,7 @@ const Post = ({ postId, autorId, contenido }) => {
 
 }, [autorId]); // El efecto se ejecuta cada vez que el autorId cambia
 
+
     return(
 
         <div>
@@ -93,7 +131,13 @@ const Post = ({ postId, autorId, contenido }) => {
                     </p>
                     </div>
                 <div className="card-footer">
-                    <span>{likesCount} likes</span>
+                    <button
+                    className="btn btn-primary"
+                    onClick={handleLikePost}
+                    >
+                        Like
+                    </button>
+                    <span>  {likesCount} like</span>
                 </div>
             </div>
         </div>

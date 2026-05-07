@@ -33,7 +33,7 @@ const NavBar = () => {
     <nav className="navbar navbar-dark bg-dark mb-4">
         <div className="container">
             <Link className="navbar-brand" to="/home">
-            Orion App
+            Orion
             </Link>
 
 
