@@ -4,7 +4,7 @@ import Home from "./components/Home";
 import Profile from "./components/Profile";
 import Register from "./components/Register";
 import Test from "./components/Test";
-
+import ChatGlobalPage from "./components/ChatGlobalPage";
 const PrivateRoute = ({ children }) => {
 
   const token = localStorage.getItem("token");
@@ -51,6 +51,17 @@ function App() {
                 <Test />
               </PrivateRoute>
             }>
+            </Route>
+
+            <Route
+            path="/chat-global"
+            element={
+              <PrivateRoute>
+                <ChatGlobalPage/>
+              </PrivateRoute>
+            }
+            >
+
             </Route>
             
 

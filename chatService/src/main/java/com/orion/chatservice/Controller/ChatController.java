@@ -40,4 +40,22 @@ public class ChatController {
 
 
 
+    @MessageMapping("/chat.global")
+    public void procesarGlobalMensaje(@Payload Mensaje mensaje) {
+
+
+        // se le asigna 0 o null al receiver para indicar que es para todo el mundo
+        mensaje.setReceiverId(0L);
+        Mensaje mensajeGuardado = repo.save(mensaje);
+
+        messagingTemplate.convertAndSend("/topic/publico",mensajeGuardado);
+
+        System.out.println("Mensaje global enviado por " + mensaje.getSenderId());
+
+
+
+    }
+
+
+
 }
