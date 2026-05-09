@@ -21,7 +21,7 @@ public class ChatController {
 
 
     // react enviara mensajes a la ruta: /app/chat.enviar
-    @MessageMapping
+    @MessageMapping("/chat.enviar")
     public void procesarMensaje(@Payload Mensaje mensaje) {
 
         Mensaje mensajeGuardado = repo.save(mensaje);
@@ -30,10 +30,11 @@ public class ChatController {
         // SI el reciverId es '5' esto lo envia al canal especial con el usuario
         messagingTemplate.convertAndSendToUser(
                 String.valueOf(mensaje.getReceiverId()),
-                "/queue/mensaje",
-                mensajeGuardado
+                "/queue/mensajes",
+                mensaje
         );
 
+        System.out.println("Mensaje enviado a: " + mensaje.getReceiverId());
 
     }
 

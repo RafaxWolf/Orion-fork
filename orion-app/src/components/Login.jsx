@@ -43,6 +43,7 @@ const Login = () => {
             const data = await response.json(); // Se obtiene la respuesta de la API en formato JSON
     
             localStorage.setItem('token', data.token); // Guarda el token en el almacenamiento local del navegador
+            localStorage.setItem('userId',data.userId)
 
             navigate('/home'); // Redirige a la página de inicio después del login exitoso
     

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import NavBar from "./Navbar";
 import Post from "./Post";
+import Chat from "./Chat";
 
 const Profile = () => {
 
@@ -288,6 +289,11 @@ const Profile = () => {
                         )} 
 
                     </div>
+
+
+                    {localStorage.getItem('userId') !== id && (
+                        <Chat receptorId={id} />
+                    )}
                 </div>
 
             </div>

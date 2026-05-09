@@ -24,7 +24,6 @@ spring:
                 allowed-headers: "*"
                 allow-credentials: true
 
-
           routes:
             - id: usuario-service
               uri: http://user-service:9090
@@ -50,3 +49,6 @@ spring:
               uri: http://chat-service:9100
               predicates:
                 - Path=/api/chat/**, /ws-chat/**
+
+          default-filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE

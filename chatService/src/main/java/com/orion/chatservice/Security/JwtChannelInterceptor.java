@@ -2,6 +2,7 @@ package com.orion.chatservice.Security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -37,7 +38,8 @@ public class JwtChannelInterceptor implements ChannelInterceptor {
 
                 try {
                     // valida el token
-                    SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+                    byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+                    SecretKey key =  Keys.hmacShaKeyFor(keyBytes);
                     Claims claims = Jwts.parserBuilder()
                             .setSigningKey(key)
                             .build()
@@ -57,7 +59,8 @@ public class JwtChannelInterceptor implements ChannelInterceptor {
                     System.out.println("Usuario "+ username + " conectado al Chat");
 
                 } catch (Exception e) {
-                    System.out.println("Token invalido en WebSocket: ");
+                    System.out.println("Token invalido en WebSocket: " + e.getMessage());
+                    e.printStackTrace();
                     throw new RuntimeException("Acceso denegado al chat");
                 }
 

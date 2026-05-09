@@ -33,7 +33,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         // prefijo para los mensajes que van desde este backend
         // hasta react (para notificaiones de nuevos mensajes por ej)
-        registry.enableSimpleBroker("/user");
+        registry.enableSimpleBroker("/topic","/queue");
 
 
         // Prefijo para los mensajes que react envia hacia el server (cuando escribes un mensaje)
