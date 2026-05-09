@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -25,8 +26,15 @@ public class Mensaje {
     @Column(nullable = false)
     private Long receiverId; // a quien le llega el mensaje
 
+    @Column
+    private String nombreEmisor;
+
     @Column(nullable = false, length = 1000)
     private String contenido;
+
+    @Column(updatable = false)
+    @CreationTimestamp
+    private LocalDateTime fechaEnvio;
 
     @Column(nullable = false)
     private LocalDateTime timestamp;

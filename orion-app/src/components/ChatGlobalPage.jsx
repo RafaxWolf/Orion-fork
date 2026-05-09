@@ -1,5 +1,5 @@
 import NavBar from "./Navbar";
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef, use} from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from "sockjs-client";
 
@@ -12,6 +12,73 @@ const ChatGlobalPage = () => {
     const stompClient = useRef(null);
     const miUsuarioId = localStorage.getItem('userId');
 
+
+    // scroll historial
+    const [pagina, setPagina] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const chatContainerRef = useRef(null);
+
+    const cargarHistorial = async (p) => {
+
+        try{
+
+            const token = localStorage.getItem('token');
+
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chat/historial/global?page=${p}&size=20`,{
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok){
+                console.error("no hubo respuesta de la request de historial");
+                return;
+            }
+
+            const data = await response.json();
+
+            if (data.content.length < 20) setHasMore(false);
+
+            const nuevosMensajes = data.content.reverse();
+            setMensajes(prev => [...nuevosMensajes, ...prev]);
+
+            // si es la primera vez que carga (pagina 0), bajamos el scroll a fondo
+            if (p === 0){
+                setTimeout(() => {
+                    if (chatContainerRef.current){
+                        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+                    }
+                }, 100) // timeou para dejar que renderice los mensajes primero
+            }
+        } catch (error){
+            console.error("error cargando historial: ",error)
+        }
+        
+    };
+
+
+    const handleScroll = (e) => {
+        if (e.target.scrollTop === 0 && hasMore){
+            const hAnterior = e.target.scrollHeight;
+            setPagina(prev => {
+                const nuevaPagina = prev + 1;
+                cargarHistorial(nuevaPagina).then(() => {
+
+                    setTimeout(() => {
+                        e.target.scrollTop = e.target.scrollHeight - hAnterior;
+                    }, 100);
+                });
+                return nuevaPagina;
+            });
+        }
+    };
+
+
+    useEffect(() => {
+        cargarHistorial(0);
+    }, []);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -74,19 +141,25 @@ const ChatGlobalPage = () => {
                 CHAT GLOBAL ORION
             </div>
 
-            <div className="card-body">
+            <div className="card-body"
+            ref={chatContainerRef}
+            onScroll={handleScroll}
+            style={{overflowY: 'auto', height:'400px'}}
+            >
 
                 {mensajes.map((msg, index) => (
                     <div 
                         key={index} 
-                        className={`mb-2 p-2 rounded shadow-sm ${String(msg.senderId) === String(miUsuarioId) ? 'bg-success text-white ms-auto' : 'bg-white text-dark'}`}
-                        style={{ width: 'fit-content', maxWidth: '80%' }}
+                        className={`mb-2 p-2 rounded shadow-sm ${String(msg.senderId) === String(miUsuarioId) ? 'bg-primary text-white ms-auto' : 'bg-light border'}`}
+                        style={{ width: 'fit-content', maxWidth: '75%' }}
                     >
-                        {/* Aquí podrías añadir el nombre del usuario si lo tienes en el DTO */}
-                        <small className="d-block font-weight-bold" style={{ fontSize: '0.7rem' }}>
-                            ID: {msg.senderId}
-                        </small>
-                        {msg.contenido}
+                        {/* Etiqueta del nombre de usuario */}
+                        <div style={{ fontSize: '0.7rem', fontWeight: 'bold', marginBottom: '2px', opacity: 0.8 }}>
+                            {String(msg.senderId) === String(miUsuarioId) ? 'Tú' : `@${msg.nombreEmisor}`}
+                        </div>
+
+                        {/* Contenido del mensaje */}
+                        <div>{msg.contenido}</div>
                     </div>
                 ))}
             </div>

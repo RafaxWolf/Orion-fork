@@ -6,6 +6,7 @@ import com.orion.chatservice.Repository.MensajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -41,16 +42,23 @@ public class ChatController {
 
 
     @MessageMapping("/chat.global")
-    public void procesarGlobalMensaje(@Payload Mensaje mensaje) {
+    public void procesarGlobalMensaje(@Payload Mensaje mensaje, SimpMessageHeaderAccessor headerAccessor) {
 
 
+        // se extraen los datos reales del usuario que entra al chat para asi evitar suplantacion
+        Long realUserId = (Long) headerAccessor.getSessionAttributes().get("realUserId");
+        String realUsername = (String) headerAccessor.getSessionAttributes().get("realUsername");
         // se le asigna 0 o null al receiver para indicar que es para todo el mundo
+
+        mensaje.setSenderId(realUserId);
+        mensaje.setNombreEmisor(realUsername);
+
         mensaje.setReceiverId(0L);
         Mensaje mensajeGuardado = repo.save(mensaje);
 
         messagingTemplate.convertAndSend("/topic/publico",mensajeGuardado);
 
-        System.out.println("Mensaje global enviado por " + mensaje.getSenderId());
+        System.out.println("Mensaje global enviado por " + realUsername);
 
 
 

@@ -58,6 +58,11 @@ public class JwtChannelInterceptor implements ChannelInterceptor {
 
                     System.out.println("Usuario "+ username + " conectado al Chat");
 
+                    if (accessor.getSessionAttributes() != null){
+                        accessor.getSessionAttributes().put("realUserId",userId);
+                        accessor.getSessionAttributes().put("realUsername",username);
+                    }
+
                 } catch (Exception e) {
                     System.out.println("Token invalido en WebSocket: " + e.getMessage());
                     e.printStackTrace();
