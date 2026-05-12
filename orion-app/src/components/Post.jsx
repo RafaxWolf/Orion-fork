@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Post = ({ postId, autorId, contenido }) => {
 
     const [nombreUsuario, setNombreUsuario] = useState('Cargando...'); // Estado para almacenar el nombre de usuario del autor
-    
+    const [avatarUrl, setAvatarUrl] = useState(null);
 
     const [likesCount, setLikesCount] = useState(0); // Estado para almacenar el número de likes
     const [isLiked, setIsLiked] = useState(false);
@@ -14,6 +14,8 @@ const Post = ({ postId, autorId, contenido }) => {
 
 
     useEffect(() => {
+
+
 
         const fetchLikesCount = async () => {
             const token = localStorage.getItem('token');
@@ -130,16 +132,61 @@ const handleLikePost = async () => {
         fetchNombreUsuario();
     }
 
+
+    
+        const fetchDatosAutor = async () => {
+            const token = localStorage.getItem('token');
+
+            if (!token || !autorId) return;
+
+
+            try {
+
+                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/usuarios/profile/${autorId}`,{
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setNombreUsuario(data.username);
+                    setAvatarUrl(data.avatarUrl);
+                }
+
+            } catch (error){
+                console.error("error al traer el perfil del usuario posteador ", error)
+            }
+        };
+
+        fetchDatosAutor();
+
 }, [autorId]); // El efecto se ejecuta cada vez que el autorId cambia
+
+
+    const fotoAutor = avatarUrl?`${import.meta.env.VITE_API_BASE_URL}${avatarUrl}`
+    :`${import.meta.env.VITE_API_BASE_URL}/api/media/default_avatar.png`;
 
 
     return(
 
         <div>
-            <div className="card">
-                <div className="card-header font-weight-bold">
-                    <Link to={`/profiles/${autorId}`} className="text-decoration-none text-dark">
-                    @{nombreUsuario} {/* Muestra el ID del autor o un mensaje si no está disponible */}
+            <div className="card shadow-sm border-0 mb-3">
+                <div className="card-header bg-white d-flex align-items-center font-weight-bold py-2">
+                    <Link to={`/profiles/${autorId}`} className="d-flex align-items-center text-decoration-none text-dark">
+                    
+                    <img 
+                        src={fotoAutor}
+                        alt={`Avatar de ${nombreUsuario}`}
+                        className="rounded-circle border"
+                        style={{ 
+                            width: '35px', 
+                            height: '35px', 
+                            objectFit: 'cover',
+                            marginRight: '10px' 
+                        }}
+                    />
+
+                    <span className="fw-bold">@{nombreUsuario}</span>{/* Muestra el ID del autor o un mensaje si no está disponible */}
+                     
                     </Link>
                     </div>
                 <div className="card-body">

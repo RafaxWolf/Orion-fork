@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/usuarios")
 //@CrossOrigin(origins = "http://localhost:5173") // habilitar React js
@@ -81,6 +83,17 @@ public class UsuarioController {
                 user.getPerfil().getBiografia(),user.getPerfil().getUbicacion());
 
         return ResponseEntity.ok(perfil);
+    }
+
+
+    @PutMapping("/{id}/avatar")
+    public ResponseEntity<UsuarioPerfil> actualizarUrlAvatar(@PathVariable Long id, @RequestBody Map<String, String> body){
+
+        String nuevaUrl = body.get("avatarUrl");
+
+        UsuarioPerfil perfilActualizar = usuarioService.actualizarUrlAvatar(id, nuevaUrl);
+
+        return ResponseEntity.ok(perfilActualizar);
     }
 
 

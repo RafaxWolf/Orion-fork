@@ -1,5 +1,7 @@
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 import NavBar from "./Navbar";
 import Post from "./Post";
 import Chat from "./Chat";
@@ -9,6 +11,23 @@ const Profile = () => {
 
     // se consigue la id del url
     const { id } = useParams(); // Obtiene el ID del usuario desde la URL
+
+    const token = localStorage.getItem('token');
+    let miUsuarioId = null;
+
+    if (token){
+
+        try {
+            miUsuarioId = jwtDecode(token).id;
+        } catch (error){
+            console.error("Error al leer token");
+        }
+
+    }
+
+    // arroja true o false si coincide el token con el perfil de usuario que esta cargando
+    const esMiPerfil = String(id) === String(miUsuarioId);
+
 
     const [imagenLocal, setImagenLocal] = useState(null); // Estado para almacenar la imagen localmente 
     const [perfil, setPerfil] = useState(null); // Estado para almacenar los datos del perfil
@@ -20,6 +39,69 @@ const Profile = () => {
     const [postCount, setPostCount] = useState(0);
 
     const [isFollowing, setIsFollowing] = useState(false);
+
+
+    // para subir avatar
+
+    const [subiendo, setSubiendo] = useState(false);
+    const fileInputRef = useRef(null);
+
+    const handleSubirAvatar = async (e) => {
+
+        const file = e.target.files[0];
+        if (!file) return;
+
+
+        setSubiendo(true);
+
+        const formData = new FormData();
+        formData.append('file',file)
+
+        try {
+            // POSTEAR FORM DATA (media)
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/media/avatar/upload`,{
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                    // tiene que ser ContentType: 'multipart/form-data' pero ahora mismo el navegador lo pone automaticamente
+                },
+                body: formData // pasamos la imagen
+            });
+
+            if (response.ok){
+
+                const dataMedia = await response.json();
+
+                const nuevaUrl = dataMedia.urlAcceso;
+
+
+                const responseUsuario = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/usuarios/${id}/avatar`,{
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({avatarUrl: nuevaUrl})
+                });
+
+                if (responseUsuario.ok){
+                    // avtualizar la pantalla sin recargar pagina
+                    setPerfil(prev => ({...prev, avatarUrl: nuevaUrl}));
+                    console.log('foto cambiada con exito');
+                } else {
+                    console.error("error en el mediaService: ", response.status)
+                }
+
+            }
+
+        } catch (error){
+            console.log("error al subir el avatar.", error);
+        } finally {
+            setSubiendo(false);
+        }
+
+    };
+
 
     useEffect(() => { // useEffect para cargar los datos del perfil cuando el componente se monta
 
@@ -284,6 +366,15 @@ const Profile = () => {
                     <div className="card shadow-sm">
 
                         <div className="card-body text-center py-5">
+
+                            <input
+                                type="file"
+                                accept="image/*"
+                                ref={fileInputRef}
+                                style={{display:'none'}}
+                                onChange={handleSubirAvatar}
+                            />
+
                             <img src={`${import.meta.env.VITE_API_BASE_URL}${perfil.avatarUrl}`}
                             className="rounded-circle mb-3 border border-3 border-primary shadow-sm"
                             style={{width: '100px', height: '100px', objectFit:'cover'}}
@@ -292,6 +383,18 @@ const Profile = () => {
                             <p className="card-text text-muted">{perfil.biografia || 'Sin biografía'}</p>
                             <p className="card-text text-muted">Ubicacion: {perfil.ubicacion || 'No especificada'}</p>
 
+
+                            {String(localStorage.getItem('userId')) === String(id) && (
+                                <div className="mb-3">
+                                    <button
+                                        className="btn btn-outline-primary btn-sm"
+                                        onClick={() => fileInputRef.current.click()} // al hacer click se activa el input oculto de arriba
+                                        disabled={subiendo}
+                                    >
+                                        {subiendo ? 'Subiendo...' : 'Cambiar foto de perfil'}
+                                    </button>
+                                </div>
+                            )}
                             
 
                             <div className="row">

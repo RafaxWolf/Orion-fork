@@ -86,6 +86,15 @@ public class UsuarioService {
     }
 
 
+    public UsuarioPerfil actualizarUrlAvatar(Long id, String nuevaUrl){
+        UsuarioPerfil usuarioPerfil = userProfileRepository.findByUsuarioId(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el id"));
+
+        usuarioPerfil.setAvatarUrl(nuevaUrl);
+
+        return userProfileRepository.save(usuarioPerfil);
+    }
+
     // UPDATE
 
     public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado){
