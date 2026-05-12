@@ -2,7 +2,7 @@ services:
 
   db:
     image: mysql:8.0
-    profiles: ["core","chat"]
+    profiles: ["core","chat","posts","complete"]
     container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -19,7 +19,7 @@ services:
 
   user-service:
     build: ./Usuario_Service
-    profiles: ["core","chat"]
+    profiles: ["core","chat","posts","complete"]
     container_name: users-service
     ports:
       - "9090:9090"
@@ -33,7 +33,7 @@ services:
 
   post-service:
     build: ./Post_service
-    profiles: ["social"]
+    profiles: ["social","posts","complete"]
     ports:
       - "9091:9091"
     depends_on:
@@ -47,7 +47,7 @@ services:
 
   media-service:
     build: ./MediaService
-    profiles: ["social"]
+    profiles: ["social","complete"]
     ports:
       - "9093:9093"
     depends_on:
@@ -63,7 +63,7 @@ services:
 
   interaccion-service:
     build: ./Interaccion_Service
-    profiles: ["social"]
+    profiles: ["social","complete"]
     ports:
       - "9095:9095"
     depends_on:
@@ -76,7 +76,7 @@ services:
 
   chat-service:
     build: ./chatService
-    profiles: [ "social", "chat"]
+    profiles: [ "social", "chat","complete"]
     ports:
       - "9100:9100"
     depends_on:
@@ -89,7 +89,7 @@ services:
 
   api-gateway:
     build: ./ApiGateway
-    profiles: ["core","chat"]
+    profiles: ["core","chat","posts","complete"]
     ports:
       - "8000:8000"
 #    depends_on:
@@ -100,7 +100,7 @@ services:
   orion-app:
     build:
       context: ./orion-app
-    profiles: ["core","chat"]
+    profiles: ["core","chat","complete"]
     container_name: orion-app
     ports:
       - "5173:5173"
