@@ -1,9 +1,7 @@
 package com.orion.Usuarios.Controller;
 
 
-import com.orion.Usuarios.DTO.RegisterRequest;
-import com.orion.Usuarios.DTO.RegisterResponse;
-import com.orion.Usuarios.DTO.UsuarioResponseDTO;
+import com.orion.Usuarios.DTO.*;
 import com.orion.Usuarios.Entity.Usuario;
 import com.orion.Usuarios.Entity.UsuarioPerfil;
 import com.orion.Usuarios.Service.UsuarioService;
@@ -66,6 +64,23 @@ public class UsuarioController {
         );
 
         return ResponseEntity.ok(usuarioResponseDTO);
+    }
+
+
+    @GetMapping("/profile/photo/{userId}")
+    public ResponseEntity<ProfilePhotoDTO> buscarAvatarUrl(@PathVariable Long userId){
+        UsuarioPerfil usuarioPerfil = usuarioService.obtenerUsuarioPerfilPorId(userId);
+        return ResponseEntity.ok(new ProfilePhotoDTO(usuarioPerfil.getAvatarUrl()));
+    }
+
+    @GetMapping("/profile/{userId}")
+    public ResponseEntity<UserProfileResponse> getUsuarioPerfil(@PathVariable Long userId){
+        Usuario user =  usuarioService.obtenerUsuarioPorId(userId);
+
+        UserProfileResponse perfil = new UserProfileResponse(user.getUsername(),user.getPerfil().getAvatarUrl(),
+                user.getPerfil().getBiografia(),user.getPerfil().getUbicacion());
+
+        return ResponseEntity.ok(perfil);
     }
 
 
