@@ -4,8 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-#### .env
-#/orion-app/.env
+### .env
+/orion-app/.env
 
 ### STS ###
 .apt_generated
