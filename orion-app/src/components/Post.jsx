@@ -9,6 +9,10 @@ const Post = ({ postId, autorId, contenido }) => {
     const [likesCount, setLikesCount] = useState(0); // Estado para almacenar el número de likes
     const [isLiked, setIsLiked] = useState(false);
 
+
+
+
+
     useEffect(() => {
 
         const fetchLikesCount = async () => {
@@ -29,6 +33,20 @@ const Post = ({ postId, autorId, contenido }) => {
                     setLikesCount(data); // Actualiza el estado con el número de likes
                 } else {
                     console.error('Error al cargar el número de likes: ', response.status);
+                }
+
+
+
+                const statusResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/interacciones/post/${postId}/like/status`,{
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (statusResponse.ok){
+                    const statusData = await statusResponse.json();
+                    setIsLiked(statusData);
                 }
 
             } catch (error) {

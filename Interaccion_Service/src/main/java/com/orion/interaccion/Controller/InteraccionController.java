@@ -41,6 +41,16 @@ public class InteraccionController {
     }
 
 
+    // para verificar si likeaste un post
+    @GetMapping("/post/{postId}/like/status")
+    public ResponseEntity<Boolean> checkIsLikedByMe(@PathVariable Long postId){
+
+        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return ResponseEntity.ok(interaccionService.verificarSiLikeo(userId,postId));
+
+    }
+
+
     // Boton para dar follow a un usuario
     @PostMapping("/usuarios/{seguidoId}/follow")
     public ResponseEntity<Boolean> toggleFollow(@PathVariable Long seguidoId){

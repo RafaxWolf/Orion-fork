@@ -41,4 +41,9 @@ public class InteraccionService {
     }
 
 
+    public boolean verificarSiLikeo(Long userId, Long postId){
+        return repo.findByUsuarioIdAndPostId(userId, postId).isPresent();
+    }
+
+
 }

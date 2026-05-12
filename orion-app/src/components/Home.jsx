@@ -9,45 +9,45 @@ const Home = () => {
     const [success, setSuccess] = useState(false); // Estado para almacenar mensajes de éxito
 
 
-    const [publicaciones, SetPublicaciones] = useState([]);
+    const [reloadFeed, SetReloadFeed] = useState(0);
 
 
-    const fetchPosts = async () => {
-        const token = localStorage.getItem('token');
-        if (!token) return;
+    // const fetchPosts = async () => {
+    //     const token = localStorage.getItem('token');
+    //     if (!token) return;
 
-        try{
-            // get a la api de posts
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/posts`,{
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
+    //     try{
+    //         // get a la api de posts
+    //         const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/posts`,{
+    //             method: 'GET',
+    //             headers: {
+    //                 'Authorization': `Bearer ${token}`,
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         });
 
-            if (response.ok){
+    //         if (response.ok){
 
-                // se convierte la respuesta de la api
-                // en un objeto json con todas las publicaciones
-                // recuperadas
-                const data = await response.json();
+    //             // se convierte la respuesta de la api
+    //             // en un objeto json con todas las publicaciones
+    //             // recuperadas
+    //             const data = await response.json();
 
-                console.log("Publicaciones recuperadas: ", data);
+    //             console.log("Publicaciones recuperadas: ", data);
 
-                SetPublicaciones(data.reverse());
+    //             SetPublicaciones(data.reverse());
                 
-            }
-        } catch (error){
-            console.error("Error al cargar el feed: ", error)
-        }
-    };
+    //         }
+    //     } catch (error){
+    //         console.error("Error al cargar el feed: ", error)
+    //     }
+    // };
 
-    // useEffect ejecuta la funcion fetchPosts() solo
-    // una vez al cargar la pagina
-    useEffect(() => {
-        fetchPosts();
-    },[]); // arreglo [] vacio para decirle que ejecute solo al montar el componente
+    // // useEffect ejecuta la funcion fetchPosts() solo
+    // // una vez al cargar la pagina
+    // useEffect(() => {
+    //     fetchPosts();
+    // },[]); // arreglo [] vacio para decirle que ejecute solo al montar el componente
 
     
 
@@ -88,7 +88,12 @@ const Home = () => {
             setSuccess(true); // Muestra un mensaje de éxito
 
             // en el futuro se recargara el listado de posts para mostrar el nuevo post creado
-            fetchPosts();
+            // prev => prev + 1 es un contador es decir va a aumentar 1 (como en python)
+            SetReloadFeed(prev => prev + 1);
+
+            setTimeout(() => setSuccess(false),3000)
+
+            
         } catch (err) {
             setError(err.message); // Si hay un error, se muestra el mensaje de error en la interfaz
         }
@@ -134,7 +139,7 @@ const Home = () => {
                         </div>
 
 
-                        <Feed/>
+                        <Feed key={reloadFeed}/>
 
                     </div>
                 </div>

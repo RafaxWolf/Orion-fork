@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import NavBar from "./Navbar";
 import Post from "./Post";
@@ -15,6 +15,7 @@ const Profile = () => {
     const [error, setError] = useState(false); // Estado para almacenar errores
     const [posts, setPosts] = useState([]); // Estado para almacenar los posts del usuario
     const [seguidores, setSeguidores] = useState(0); // Estado para almacenar el número de seguidores
+    const [siguiendo, setSiguiendo] = useState(0);
 
     const [isFollowing, setIsFollowing] = useState(false);
 
@@ -147,6 +148,36 @@ const Profile = () => {
 
         fetchIsFollowing();
 
+
+        const fetchSiguiendoCount = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+
+            try {
+
+                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/interacciones/usuarios/${id}/seguidos/count`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok){
+                    const data = await response.json();
+                    console.log('siguiendo a ',data);
+                    setSiguiendo(data);
+                }
+
+
+            } catch (error){
+                console.error("error al obtener numero de seguidos del usuario: ", error)
+            }
+
+            
+        };
+        fetchSiguiendoCount();
         },    [id]); // El efecto se ejecuta cada vez que el ID cambia
 
 
@@ -241,7 +272,7 @@ const Profile = () => {
                                 </div>
                                 <div className="col">
                                     <h6 className="text-muted mb-0">Siguiendo</h6>
-                                    <p className="fw-bold">{perfil.siguiendo || 0}</p>
+                                    <p className="fw-bold">{siguiendo || 0}</p>
                                 </div>
 
                                 <div>

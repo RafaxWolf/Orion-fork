@@ -29,7 +29,15 @@ const Feed = () => {
                 const data = await response.json();
 
                 // pegamos los posts nuevos ebajo de los que ya teniamos
-                setPosts(prev => [...prev, ...data.content]); // el content es una propiedad del objeto que arroja el json del postman
+
+                // el content es una propiedad del objeto que arroja el json del postman
+                setPosts(prev => {
+
+                    const postFiltrados = data.content.filter(
+                        (nuevoPost) => !prev.some((postExistente) => postExistente.id === nuevoPost.id)
+                    );
+                    return [...prev, ...postFiltrados]
+                });
 
                 // si "last" es true,entonces significa que ya no hay mas paginas
                 setHasMore(!data.last); // last lo arroja el endpoint (en el postman se ve mas especificado)
@@ -69,7 +77,7 @@ const Feed = () => {
     return(
         <div className="container mt-4">
 
-            <h5 className="text-muted mb-3">últimas publicaciones</h5>
+            <h5 className="text-muted mb-3">Últimas publicaciones</h5>
 
             <div className="feed-container pb-4"
                  onScroll={handleScroll}
@@ -88,7 +96,7 @@ const Feed = () => {
                 ))}
 
                 {cargando && <div className="text-center mt-4 text-primary fw-bold">Cargando mas posts...</div>}
-                {!hasMore && post.length > 0 && <div className="text-center mt-4 text-muted"> Estas al dia, no hay más publicaciones.</div>}
+                {!hasMore && posts.length > 0 && <div className="text-center mt-4 text-muted"> Estas al dia, no hay más publicaciones.</div>}
                 
             </div>
         </div>
