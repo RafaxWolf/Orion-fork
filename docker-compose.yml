@@ -17,6 +17,17 @@ services:
       timeout: 20s
       retries: 10
 
+  eurekaserver:
+    build: ./eurekaserver
+    profiles: ["core","chat","posts","complete"]
+    container_name: eurekaserver
+    ports:
+      - "8761:8761"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   user-service:
     build: ./Usuario_Service
@@ -27,10 +38,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     environment:
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
         SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/usuario_db?allowPublicKeyRetrieval=true&useSSL=false
         SPRING_DATASOURCE_USERNAME: root
         SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - orion-network
 
   post-service:
     build: ./Post_service
@@ -40,10 +56,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/feed_db?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - orion-network
 
 
   media-service:
@@ -54,13 +75,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/media_db?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       MEDIA_STORAGE_LOCATION: /app/media_data
     volumes:
       - ./media_volumen:/app/media_data
+    networks:
+      - orion-network
 
   interaccion-service:
     build: ./Interaccion_Service
@@ -70,33 +96,49 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/interaction_db?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - orion-network
 
   chat-service:
     build: ./chatService
-    profiles: [ "social", "chat","complete"]
+    profiles: [ "social", "chat"]
     ports:
       - "9100:9100"
     depends_on:
       db:
         condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
     environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/chat_db?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      - orion-network
 
   api-gateway:
     build: ./ApiGateway
     profiles: ["core","chat","posts","complete"]
     ports:
       - "8000:8000"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8761/eureka/
+    depends_on:
+      - eurekaserver
 #    depends_on:
 #      - user-service
 #      - post-service
 #      - media-service
+
+
 
   orion-app:
     build:
@@ -112,6 +154,11 @@ services:
       - api-gateway
     environment:
       - CHOKIDAR_USEPOLLING=true
+
+
+networks:
+  orion-network:
+    driver: bridge
 
 volumes:
   orion_db_data:
