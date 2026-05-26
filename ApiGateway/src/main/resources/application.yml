@@ -26,27 +26,27 @@ spring:
 
           routes:
             - id: usuario-service
-              uri: http://user-service:9090
+              uri: lb://usuario-service # lb buscara el servicio en eureka si esta disponible
               predicates:
                 - Path=/api/usuarios/**, /api/auth/**
 
             - id: post-service
-              uri: http://post-service:9091
+              uri: lb://post-service
               predicates:
                 - Path=/api/posts/**
 
             - id: media-service
-              uri: http://media-service:9093
+              uri: lb://media-service
               predicates:
                 - Path=/api/media/**
 
-            - id: interacciones_service
-              uri: http://interaccion-service:9095
+            - id: interaccion_service
+              uri: lb://interaccion-service
               predicates:
                 - Path=/api/interacciones/**
 
             - id: chat-service
-              uri: http://chat-service:9100
+              uri: lb://chat-service
               predicates:
                 - Path=/api/chat/**, /ws-chat/**
 

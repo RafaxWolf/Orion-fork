@@ -1,6 +1,6 @@
-spring:
+  spring:
   application:
-    name: Usuarios
+    name: usuario-service # nombre a buscar en el gateway
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,5 +13,16 @@ datasource:
   password: ${SPRING_DATASOURCE_PASSWORD}
 
 
+
 server:
   port: 9090
+
+eureka:
+  client:
+    service-url:
+      ## si el servicio esta en este mismo pc usar localhost
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    #envia la ip real del microservicio a eureka en lugar del nombre
+    # de su computador
+    prefer-ip-address: true

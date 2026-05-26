@@ -25,6 +25,4 @@ public interface MensajeRepository extends JpaRepository<Mensaje, Long> {
     Page<Mensaje> findByReceiverIdOrderByFechaEnvioDesc(Long receiverId, Pageable pageable);
 
 
-
-    @Query(value = "SELECT m.* FROM ")
 }

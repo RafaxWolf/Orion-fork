@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: Comentarios
+    name: comentario-service
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/comentarios_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: ${DB_USERNAME:root}
@@ -20,3 +20,15 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
     default-schema: comentarios_db
+
+
+eureka:
+  client:
+    service-url:
+      ## si el servicio esta en este mismo pc usar localhost
+      ## si eureka server esta en otro pc entonces la ip de ese pc junto a :8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    #envia la ip real del microservicio a eureka en lugar del nombre
+    # de su computador
+    prefer-ip-address: true

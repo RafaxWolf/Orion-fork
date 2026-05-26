@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Interaccion_Service
+    name: interaccion-service
 
   datasource:
     url: ${SPRING_DATASOURCE_URL}
@@ -15,3 +15,15 @@ spring:
 
 server:
   port: 9095
+
+
+eureka:
+  client:
+    service-url:
+      ## si el servicio esta en este mismo pc usar localhost
+      ## si eureka server esta en otro pc entonces la ip de ese pc junto a :8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    #envia la ip real del microservicio a eureka en lugar del nombre
+    # de su computador
+    prefer-ip-address: true
