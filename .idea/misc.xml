@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/Interaccion/pom.xml" />
         <option value="$PROJECT_DIR$/Interaccion_Service/pom.xml" />
         <option value="$PROJECT_DIR$/chatService/pom.xml" />
+        <option value="$PROJECT_DIR$/eurekaserver/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

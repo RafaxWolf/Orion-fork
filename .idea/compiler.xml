@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="chatService" />
+        <module name="eurekaserver" />
       </profile>
       <profile name="Annotation profile for Usuarios" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -45,6 +46,7 @@
       <module name="Posteos" options="-parameters" />
       <module name="Usuarios" options="-parameters" />
       <module name="chatService" options="-parameters" />
+      <module name="eurekaserver" options="-parameters" />
     </option>
   </component>
 </project>
