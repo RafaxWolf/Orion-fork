@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.util.Map;
 
 @RestController
@@ -21,24 +24,13 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
 
+    ///  CRUD
+
+    // CREATE
+
     @PostMapping("/registro")
     public ResponseEntity<RegisterResponse> registrar(@RequestBody RegisterRequest registerRequest) {
-        Usuario user = new Usuario();
-        user.setUsername(registerRequest.getUsername());
-        user.setEmail(registerRequest.getEmail());
-        user.setPassword(registerRequest.getPassword());
-
-
-        UsuarioPerfil usuarioPerfil = new UsuarioPerfil();
-        usuarioPerfil.setBiografia(registerRequest.getBiografia());
-        usuarioPerfil.setAvatarUrl("/api/media/avatar/default_avatar.png");
-        usuarioPerfil.setUbicacion(registerRequest.getUbicacion());
-
-        usuarioPerfil.setUsuario(user);
-        user.setPerfil(usuarioPerfil);
-
-        Usuario userRegistrado = usuarioService.registrarUsuario(user);
-
+        Usuario userRegistrado = usuarioService.registrarUsuario(registerRequest);
         return ResponseEntity.ok(new RegisterResponse(
                 userRegistrado.getId(),
                 userRegistrado.getUsername(),
@@ -46,11 +38,8 @@ public class UsuarioController {
         ));
     }
 
-//    @PostMapping("/registro")
-//    public ResponseEntity<Usuario> registrar(@RequestBody Usuario usuario){
-//        Usuario nuevoUser = usuarioService.registrarUsuario(usuario);
-//        return ResponseEntity.ok(nuevoUser);
-//    }
+
+    // READ
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> buscar(@PathVariable Long id){
@@ -60,6 +49,7 @@ public class UsuarioController {
         UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO(
                 usuario.getId(),
                 usuario.getUsername(),
+                usuario.getEmail(),
                 usuarioPerfil.getAvatarUrl(),
                 usuarioPerfil.getBiografia(),
                 usuarioPerfil.getUbicacion()
@@ -68,6 +58,49 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioResponseDTO);
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UsuarioResponseDTO> buscarPorUsername(@PathVariable String username){
+        Usuario usuario = usuarioService.obtenerUsuarioPorUsername(username);
+        UsuarioPerfil usuarioPerfil = usuarioService.obtenerUsuarioPerfilPorId(usuario.getId());
+        return ResponseEntity.ok(new UsuarioResponseDTO(
+                usuario.getId(),
+                usuario.getUsername(),
+                usuario.getEmail(),
+                usuarioPerfil.getAvatarUrl(),
+                usuarioPerfil.getBiografia(),
+                usuarioPerfil.getUbicacion()
+        ));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UsuarioResponseDTO>> buscarTodosUsuarios(){
+        return ResponseEntity.ok(usuarioService.obtenerTodosUsuarios());
+    }
+
+
+    // UPDATE
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDTO> actualizarUsuario(
+            @PathVariable Long id,
+            @RequestBody UsuarioUpdateDTO updateDTO
+    ){
+        UsuarioResponseDTO actualizado = usuarioService.actualizarUsuario(id, updateDTO);
+        return ResponseEntity.ok(actualizado);
+    }
+
+    // DELETE
+
+
+    public ResponseEntity<List<UsuarioResponseDTO>> obtenerTodosUsuarios(){}
+
+
+
+
+
+
+    ///  FRONTEND APP
 
     @GetMapping("/profile/photo/{userId}")
     public ResponseEntity<ProfilePhotoDTO> buscarAvatarUrl(@PathVariable Long userId){
@@ -99,15 +132,16 @@ public class UsuarioController {
 
 
 
+
     /// ADMIN ONLY
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> eliminarUsuario(@PathVariable Long id){
-        usuarioService.eliminarUsuario(id);
-
-
-        return ResponseEntity.ok("Usuario eliminado con exito por el administrador");
-    }
+//    @DeleteMapping("/{id}")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    public ResponseEntity<String> eliminarUsuario(@PathVariable Long id){
+//        usuarioService.eliminarUsuario(id);
+//
+//
+//        return ResponseEntity.ok("Usuario eliminado con exito por el administrador");
+//    }
 
 }

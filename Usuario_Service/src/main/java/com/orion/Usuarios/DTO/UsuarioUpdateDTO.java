@@ -1,16 +1,13 @@
 package com.orion.Usuarios.DTO;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class UsuarioResponseDTO {
-    private Long id;
+public class UsuarioUpdateDTO {
+
     private String username;
     private String email;
+    private String password;
     private String avatarUrl;
     private String biografia;
     private String ubicacion;

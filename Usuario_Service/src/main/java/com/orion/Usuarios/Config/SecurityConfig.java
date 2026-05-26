@@ -54,6 +54,9 @@ public class SecurityConfig {
                     auth.requestMatchers("/error").permitAll();
                     auth.requestMatchers(HttpMethod.POST,"/api/auth/login").permitAll();
                     auth.requestMatchers(HttpMethod.POST,"/api/usuarios/registro").permitAll();
+                    auth.requestMatchers(HttpMethod.GET,"/api/usuarios/**").permitAll();
+                    auth.requestMatchers(HttpMethod.PUT,"/api/usuarios/**").permitAll();
+                    auth.requestMatchers(HttpMethod.DELETE,"/api/usuarios/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
