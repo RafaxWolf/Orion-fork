@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-estructura-inicial-usuarios
+      author: akomi
+      changes:
+        # tabla usuarios
+        - createTable:
+            tableName: usuario
+            columns:
+              - column: {name: id,type: bigint, autoIncrement: true, constraints:{ primaryKey: true }}
+              - column: {name: username, type: varchar(50), constraints: { nullable: false, unique: true }}
+              - column: {name: email, type: varchar(100), constraints: {nullable: false}}
+              - column: {name: password, type: varchar(255), constraints: { nullable: false }}
+              - column: {name: created_at, type: datetime}
+
+        # tabla perfiles
+        - createTable:
+            tableName: usuario_perfil
+            columns:
+              - column: {name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true }}
+              - column: {name: usuario_id, type: bigint, constraints: { nullable: false, unique: true }}
+              - column: {name: nombre_display, type: varchar(100)}
+              - column: {name: biografia, type: varchar(255)}
+              - column: {name: ubicacion, type: varchar(100)}
+              - column: {name: avatar_url, type: varchar(255)}
+
+        # roles y permisos (security)
+        - createTable:
+            tableName: roles
+            columns:
+              - column: {name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true }}
+              - column: {name: nombre, type: varchar(50), constraints: { nullable: false , unique: true }}
+
+
+        - createTable:
+            tableName: usuarios_roles
+            columns:
+              - column: {name: usuario_id, type: bigint, constraints: { nullable: false }}
+              - column: {name: rol_id, type: bigint, constraints: { nullable: false }}
+
+        - createTable:
+            tableName: permisos
+            columns:
+              - column: {name: id, type: bigint, autoIncrement: true, constraints: { primaryKey: true }}
+              - column: {name: nombre, type: varchar(50), constraints: {nullable.false, unique: true }}
+
+        - createTable:
+            tableName: roles_permisos
+            columns:
+              - column: {name: rol_id, type: bigint, constraints: { nullable: false }}
+              - column: {name: permiso_id, type: bigint, constraints: { nullable: false }}
+
+        # llaves foraneas
+
+        - addForeignKeyConstraint:
+            baseTableName: usuario_perfil
+            baseColumnNames: usuario_id
+            referencedTableName: usuario
+            referencedColumnNames: id
+            constraintName: fk_perfil_usuario
+
+        - addForeignKeyConstraint:
+            baseTableName: usuarios_roles
+            baseColumnNames: usuario_id
+            referencedTableName: usuario
+            referencedColumnNames: id
+            constraintName: fk_user_rol
+
+        - addForeignKeyConstraint:
+            baseTableName: usuarios_roles
+            baseColumnNames: rol_id
+            referencedTableName: roles
+            referencedColumnNames: id
+            constraintName: fk_rol_user
+
+        - addForeignKeyConstraint:
+            baseTableName: roles_permisos
+            baseColumnNames: rol_id
+            referencedTableName: roles
+            referencedColumnNames: id
+            constraintName: fk_rol_permiso
+
+        - addForeignKeyConstraint:
+            baseTableName: roles_permisos
+            baseColumnNames: permiso_id
+            referencedTableName: permisos
+            referencedColumnNames: id
+            constraintName: fk_permiso_rol
