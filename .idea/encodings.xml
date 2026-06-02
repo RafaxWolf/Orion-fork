@@ -10,6 +10,8 @@
     <file url="file://$PROJECT_DIR$/Post_service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Usuario_Service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chatService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/eventos_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/search_service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
   </component>
 </project>
