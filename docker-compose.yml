@@ -31,7 +31,18 @@ services:
         SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/usuario_db?allowPublicKeyRetrieval=true&useSSL=false
         SPRING_DATASOURCE_USERNAME: root
         SPRING_DATASOURCE_PASSWORD: root
-
+  eventos-service:
+    build: ./eventos_service
+    profiles: [ "social","complete" ]
+    ports:
+      - "9096:9096"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/eventos_db?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
   post-service:
     build: ./Post_service
     profiles: ["social","posts","complete"]

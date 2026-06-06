@@ -21,7 +21,8 @@ public class EventoModelAssembler implements RepresentationModelAssembler<Evento
                 linkTo(methodOn(EventoController.class)
                         .actualizar(evento.getIdEvento(), null)).withRel("actualizar"),
                 linkTo(methodOn(EventoController.class)
-                        .borrar(evento.getIdEvento())).withRel("eliminar")
+                        .borrar(evento.getIdEvento())).withRel("eliminar"),
+                linkTo(methodOn(EventoController.class).unirse(evento.getIdEvento())).withRel("unirse")
         );
     }
 }

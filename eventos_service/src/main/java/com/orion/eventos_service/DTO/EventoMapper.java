@@ -12,8 +12,13 @@ public class EventoMapper {
         dto.setAsistentes(e.getAsistentes());
         dto.setFecha(e.getFecha());
         dto.setCreadoEl(e.getCreadoEl());
-        e.setLugar(e.getLugar());
-        e.setNombre(e.getNombre());
+        dto.setLugar(e.getLugar());
+        dto.setNombre(e.getNombre());
+        if (e.getAsistentes() != null) {
+            dto.setCantidadAsistentes(e.getAsistentes().size());
+        } else {
+            dto.setCantidadAsistentes(0);
+        }
         return dto;
 
     }

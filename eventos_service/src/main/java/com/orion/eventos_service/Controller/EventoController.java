@@ -29,29 +29,38 @@ public class EventoController {
     @Autowired
     private EventoModelAssembler assembler;
 
-
-
+    //Crear Evento
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<EntityModel<EventoResponse>> crear(@RequestBody EventoRequest dto) {
-        UsernamePasswordAuthenticationToken auth =
-                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        EventoResponse nuevo = service.guardar(dto, (Long) auth.getCredentials());
+    public ResponseEntity<EntityModel<EventoResponse>> crear(@Valid @RequestBody EventoRequest dto) {
+        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Long.parseLong(auth.getPrincipal().toString());
+
+        EventoResponse nuevo = service.guardar(dto, userId);
+
         return ResponseEntity
                 .created(linkTo(methodOn(EventoController.class).verEvento(nuevo.getIdEvento())).toUri())
                 .body(assembler.toModel(nuevo));
     }
 
+    //Unirse a evento
+    @PostMapping("/{id}/unirse")
+    public ResponseEntity<EntityModel<EventoResponse>> unirse(@PathVariable Long id) {
+        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Long.parseLong(auth.getPrincipal().toString());
 
+        EventoResponse actualizado = service.unirseAEvento(id, userId);
 
+        return ResponseEntity.ok(assembler.toModel(actualizado));
+    }
+
+   //Buscar evento por id
     @GetMapping(value = "/ver/{id}", produces = MediaTypes.HAL_JSON_VALUE)
     public EntityModel<EventoResponse> verEvento(@PathVariable Long id) {
         EventoResponse evento = service.obtenerPorId(id);
         return assembler.toModel(evento);
     }
 
-
-
-
+    //VER TODOS LOS EEVENTOS
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
     public CollectionModel<EntityModel<EventoResponse>> verEventosGlobales() {
         List<EntityModel<EventoResponse>> lista = service.obtenerTodos()
@@ -61,29 +70,26 @@ public class EventoController {
         return CollectionModel.of(lista,
                 linkTo(methodOn(EventoController.class).verEventosGlobales()).withSelfRel());
     }
-
-
-
-
-
-
+    //Borrar evento
     @DeleteMapping("/borrar/{id}")
     public ResponseEntity<Void> borrar(@PathVariable Long id) {
         UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-
-        service.eliminar(id,(Long) auth.getCredentials());
+        Long userId = Long.parseLong(auth.getPrincipal().toString());
+        service.eliminar(id, userId);
 
         return ResponseEntity.noContent().build();
     }
+
+  //Actualizar evento
     @PutMapping("/actualizarevento/{id}")
     public ResponseEntity<EntityModel<EventoResponse>> actualizar(
             @PathVariable Long id,
             @Valid @RequestBody EventoRequest dto) {
+
         UsernamePasswordAuthenticationToken auth =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        EventoResponse actualizado = service.actualizar(id, dto, (Long) auth.getCredentials());
+        Long userId = Long.parseLong(auth.getPrincipal().toString());
+        EventoResponse actualizado = service.actualizar(id, dto, userId);
         return ResponseEntity.ok(assembler.toModel(actualizado));
     }
-
-
 }

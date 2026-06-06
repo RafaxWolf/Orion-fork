@@ -67,5 +67,19 @@ public class EventoService {
                 .orElseThrow(() -> new RuntimeException("Evento no encontrado con id: " + id));
         return mapper.aResponse(evento);
     }
+    @Transactional
+    public EventoResponse unirseAEvento(Long idEvento, Long idUsuario) {
+        Evento evento = repo.findById(idEvento)
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado con id: " + idEvento));
+
+        if (evento.getAsistentes().contains(idUsuario)) {
+            throw new RuntimeException("Ya estás registrado en este evento");
+        }
+
+        evento.getAsistentes().add(idUsuario);
+
+        Evento actualizado = repo.save(evento);
+        return mapper.aResponse(actualizado);
+    }
 
 }

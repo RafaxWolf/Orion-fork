@@ -13,5 +13,5 @@ public class EventoResponse {
     private LocalDateTime fecha;
     private LocalDateTime creadoEl;
     private List<Long> asistentes;
-
+    private int cantidadAsistentes;
 }
