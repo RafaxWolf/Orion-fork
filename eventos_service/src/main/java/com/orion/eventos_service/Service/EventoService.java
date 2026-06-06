@@ -61,5 +61,11 @@ public class EventoService {
 
         repo.deleteById(id);
     }
+    @Transactional(readOnly = true)
+    public EventoResponse obtenerPorId(Long id) {
+        Evento evento = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evento no encontrado con id: " + id));
+        return mapper.aResponse(evento);
+    }
 
 }
