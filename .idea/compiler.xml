@@ -21,11 +21,10 @@
         <module name="Usuarios" />
         <module name="MediaService" />
         <module name="Interaccion_Service" />
-        <module name="Comentarios" />
         <module name="ApiGateway" />
         <module name="Posteos" />
       </profile>
-      <profile name="Annotation profile for eventos_service" enabled="true">
+      <profile name="Annotation profile for Comentarios" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -33,6 +32,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
         </processorPath>
         <module name="eventos_service" />
+        <module name="Comentarios" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

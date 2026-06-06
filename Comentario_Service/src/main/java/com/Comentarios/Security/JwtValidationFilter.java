@@ -1,6 +1,5 @@
 package com.Comentarios.Security;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -39,8 +38,7 @@ public class JwtValidationFilter extends OncePerRequestFilter {
             return;
         }
 
-
-        try{
+        try {
             String jwt = authHeader.substring(7);
 
             Claims claims = Jwts.parserBuilder()
@@ -50,35 +48,29 @@ public class JwtValidationFilter extends OncePerRequestFilter {
                     .getBody();
 
             String username = claims.getSubject();
-
             Object idObj = claims.get("id");
             Long userId = idObj != null ? Long.valueOf(idObj.toString()) : null;
 
             List<String> roles = claims.get("roles", List.class);
-
 
             List<SimpleGrantedAuthority> authorities = roles.stream()
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
 
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(username,
-                            userId, authorities);
+                    new UsernamePasswordAuthenticationToken(userId, username, authorities);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);
-
     }
 
-
-    private Key getSignInKey(){
+    private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-
 }

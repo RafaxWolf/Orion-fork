@@ -20,22 +20,19 @@ public class SecurityConfig {
     @Autowired
     JwtValidationFilter jwtValidationFilter;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http
-//                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/comentarios/**").permitAll();
+                    auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
+                    auth.requestMatchers("/api/comentarios/**").hasAuthority("ROLE_USER");
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtValidationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-
 }

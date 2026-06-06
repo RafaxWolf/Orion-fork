@@ -43,7 +43,7 @@ public class ControllerComentario {
 
 
     }
-    @PutMapping("/comentarios/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<ResponseComentario> actualizar (@PathVariable Long id, @Valid @RequestBody RequestComentario r){
         log.info("POST /api/posts/comentario/{} - Comentando", id);
         ResponseComentario actualizado = service.actualizar(id, r);

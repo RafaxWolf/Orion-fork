@@ -1,8 +1,10 @@
 server:
   port: 8008
+
 logging:
   file:
     name: logs/comentarios.log
+
 spring:
   application:
     name: Comentarios
@@ -15,10 +17,11 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    default-schema: comentarios_db
+
+springdoc:
+  packages-to-scan: com.Comentarios.Controller
+  api-docs:
+    path: /v3/api-docs

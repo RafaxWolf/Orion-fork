@@ -1,4 +1,4 @@
-package com.orion.eventos_service.Config;
+package com.Comentarios.Config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -13,10 +13,11 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI().info(new Info()
-                        .title("Microservicio Eventos de red social Orion")
+        return new OpenAPI()
+                .info(new Info()
+                        .title("API Orion - Gestión de Comentarios")
                         .version("1.0")
-                        .description("Documentación de microservicio evento"))
+                        .description("Documentación de los endpoints CRUD para el microservicio de comentarios"))
                 .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("BearerAuth", new SecurityScheme()
